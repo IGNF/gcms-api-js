@@ -1,0 +1,47 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
+
+<script type="text/javascript" src="../src/Debug.js"></script>
+
+<script type="text/javascript">
+
+var map, osm;
+
+function initMap(){
+	map = new OpenLayers.Map( 'map');
+	osm = new OpenLayers.Layer.OSM( "Simple OSM Map");
+	map.addLayer(osm);
+	map.setCenter(
+		new OpenLayers.LonLat(5.0, 42.0).transform(
+			new OpenLayers.Projection("EPSG:4326"),
+			map.getProjectionObject()
+		), 5
+	);
+	
+	GCMS.loadFeatureTypes( 'http://localhost/webpart/app_dev.php/gcms/database/world.json', function( featureTypes ){
+		console.log( featureTypes );
+	});
+}
+
+$(document).ready(function(){
+	initMap();
+});
+
+</script>
+
+
+</head>
+<body>
+
+<div id="map">
+
+</div>
+
+</body>
+</html>
