@@ -1,11 +1,15 @@
 {
-    "name": "ign/js-gcms-api",
+    "name": "ign/gcms-api-js",
     "description": "API JavaScript pour l'utilisation de webpart",
     "license": "proprietary",
     "authors": [
         {
             "name": "mborne",
             "email": "mickael.borne@ign.fr"
+        },
+	{
+            "name": "jmviglino",
+            "email": "jean-marc.viglino@ign.fr"
         }
     ],
     "require": {
