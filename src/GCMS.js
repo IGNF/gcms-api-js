@@ -1,46 +1,58 @@
-var GCMS = {} ;
-
+var GCMS = GCMS || {} ;
 
 /**
- * Generate a random Global Unique IDdentifier
- * source : <http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript>
+ * GCMS version
  */
-GCMS.guid = function(){
-	function s4() {
-	  return Math.floor((1 + Math.random()) * 0x10000)
-	             .toString(16)
-	             .substring(1);
-	};
+GCMS.version = "1.0.0" ;
+
+/**
+ * Loader for the non minified version
+ */
+(function() {
 	
-	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-		s4() + '-' + s4() + s4() + s4();
-}
-
-
-/**
- * Chargement des featureType
- *  * 
- * En cas d'échec, appel le callback avec featureTypes à vide
- */
-GCMS.loadFeatureTypes = function(urlServer,callback) {
-	var loader = {
-		onComplete : function(response) {
-			var parser = new OpenLayers.Format.JSON();
-			var data = response.responseText ;
-			
-			var featureTypes = {} ;
-			if ( data ){
-				featureTypes = parser.read(response.responseText);
-			}
-			if (typeof (callback) == "function"){
-				callback( featureTypes );
-			}
-		},
-		onFailure : function() {
-			callback( {} );
+	/**
+	 * The list of all the JS files
+	 */
+	var jsFiles = [
+		'OpenLayers-patch.js',
+		
+		'GCMS/guid.js',
+		
+		'GCMS/Util.js',
+		'GCMS/SimpleGeocoder.js',
+		
+		'GCMS/Control.js',
+		'GCMS/Control/DeleteFeature.js',
+		
+		'GCMS/Layer.js',
+		'GCMS/Layer/BDUni.js',
+		'GCMS/Layer/VectorLayer.js'
+	];
+	
+	/**
+	 * Get current script location
+	 */
+	function getScriptLocation(){
+		var scripts= document.getElementsByTagName('script');
+		var path= scripts[scripts.length-1].src.split('?')[0]; // remove any ?query
+		var location= path.split('/').slice(0, -1).join('/')+'/';
+		return location ;
+	}
+	
+	/**
+	 * Load scripts is GCMS is not minimified
+	 */
+	if ( ! GCMS.minimified ){
+		var scriptLocation = getScriptLocation() ;
+		var scriptTags = new Array(jsFiles.length);
+		var host = scriptLocation + "/";
+		for (var i=0, len=jsFiles.length; i<len; i++) {
+			scriptTags[i] = "<script src='" + host + jsFiles[i] + "'></script>";
 		}
-	};
-	OpenLayers.loadURL(urlServer, "", loader, loader.onComplete, loader.onFailure);
-	return false;
-};
+		if (scriptTags.length > 0) {
+			document.write(scriptTags.join(""));
+		}
+	}
+})() ;
+
 
