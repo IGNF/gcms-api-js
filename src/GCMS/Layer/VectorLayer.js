@@ -46,7 +46,7 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 				}, options);
 				
 				if ( featureType.style != null ){
-					layerOptions.styleMap = new OpenLayers.StyleMap( featureType.style );
+					layerOptions.styleMap = this.createStyleMap( featureType );
 				}
 
 				// Options non surchargeables
@@ -126,6 +126,43 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 				OpenLayers.Layer.Vector.prototype.initialize.apply( this, [ "inconnu", options ] );
 			}
 		},
+		
+		/**
+		 * Créé un style à partir du style définit sur le FeatureType
+		 */
+		createStyleMap: function(featureType){
+			var context = {} ;
+			
+			/* 
+			 * allows labelMinZoomLevel
+			 */
+			if ( featureType.style.label ){
+				context.getLabel = function( feature ){
+					var featureType = feature.layer.featureType ;
+					if ( 
+						featureType.style.labelMinZoomLevel == null 
+					 || ( feature.layer.map.zoom >= featureType.style.labelMinZoomLevel )
+					){
+						return OpenLayers.String.format(
+							featureType.style.labelName,
+							feature.attributes
+						);
+					}else{
+						return "" ;
+					}
+				} ;
+				
+				featureType.style.labelName = featureType.style.label ;
+				featureType.style.label = "${getLabel}";
+			}
+			
+			return new OpenLayers.StyleMap( 
+				new OpenLayers.Style( 
+					featureType.style, 
+					{context: context} 
+				)
+			);	
+		},		
 		
 		/**
 		 * Renvoie le type de colonne géométrique
