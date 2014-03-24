@@ -14,7 +14,7 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 		 * 
 		 * id == 5454 <=> {"id":"5454"}
 		 */
-		featureFilter: null,
+		featureFilter: {},
 		/**
 		 * Creer le layer
 		 */
@@ -263,7 +263,8 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 		/** Ajouter un filtre de chargement
 		*/
 		addFeatureFilter : function (filter, options)
-		{	this.featureFilter = OpenLayers.Util.extend ( this.featureFilter, filter );
+		{	
+			this.featureFilter = OpenLayers.Util.extend ( this.featureFilter, filter );
 			this.refresh({force:true});
 		},
 			

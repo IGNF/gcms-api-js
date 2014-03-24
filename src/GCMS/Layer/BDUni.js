@@ -6,16 +6,20 @@ GCMS.Layer.BDUni = OpenLayers.Class ( GCMS.Layer.VectorLayer,
 	/**
 	 * Ajouter un filtre de chargement
 	 */
-	addFeatureFilter : function (filter, options)
-	{	// Filtres predefinis
-		switch (filter)
+	addFeatureFilter : function (filterName, options)
+	{	
+		var filter = {} ;
+		
+		// Styles predefinis
+		if ( GCMS.Layer.BDUni.defaultFilter[filterName] )
 		{	
-			case 'detruit':	filter = { "detruit": true }; break;
-			case 'vivant':	filter = { "detruit": false }; break;
-			case 'depuis':	filter = { "daterec": {"$gt" : String(options) } }; break;
-			case 'jusqua':	filter = { "daterec": {"$lt" : String(options) } }; break;
-			default: break;
+			filter = GCMS.Layer.BDUni.defaultFilter[filterName](options);
 		}
+		
+		if ( typeof(filter) != "object" ){
+			filter = {} ;
+		}
+				
 		GCMS.Layer.VectorLayer.prototype.addFeatureFilter.apply( this, [ filter, options ] );
 	},
 		
@@ -41,10 +45,28 @@ GCMS.Layer.BDUni = OpenLayers.Class ( GCMS.Layer.VectorLayer,
 	CLASS_NAME : "GCMS.Layer.BDUni"
 });
 
+/**	Filtre predefinis
+*/
+GCMS.Layer.BDUni.defaultFilter = 
+{
+	'detruit': function(options){
+		return { "detruit": true } ;		
+	},
+	'vivant': function(options){
+		return { "detruit": false } ;		
+	},
+	'depuis': function(options){
+		return { "daterec": {"$gt" : String(options) } } ;		
+	},
+	'jusqua': function(options){
+		return { "daterec": {"$lt" : String(options) } } ;		
+	}
+} ;
+
 
 /**	Styles predefinis
 */
-GCMS.Layer.BDUni = 
+GCMS.Layer.BDUni.defaultStyle = 
 {	// Objets mort-vivant
 	'zombie': function(options)
 	{	return {	style : {	
