@@ -355,7 +355,9 @@ GCMS.Layer.BDUni.defaultStyle =
 
 // Decouper les noms trop long
 GCMS.Layer.BDUni.toponyme = function(nom)
-{	if (nom.length > 20)
+{	
+	if (!nom || !nom.length) return "";
+	if (nom.length > 20)
 	{	var t0 = nom.replace("' ","'").replace(" - ","-").split(' ');
 		var ti="", t="";
 		for (var i=t0.length-1; i>=0; i--)
