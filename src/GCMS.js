@@ -24,6 +24,9 @@ GCMS.version = "1.0.0" ;
 		'GCMS/Control.js',
 		'GCMS/Control/DeleteFeature.js',
 		
+		'GCMS/Strategy.js',
+		'GCMS/Strategy/KeepChanges.js',
+		
 		'GCMS/Layer.js',
 		'GCMS/Layer/BDUni.js',
 		'GCMS/Layer/VectorLayer.js'
