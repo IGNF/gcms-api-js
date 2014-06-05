@@ -98,6 +98,8 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     	for ( var i in this.layer.features ){
     		var feature = this.layer.features[i];
     		if ( feature.state !== null ){
+    			//style deselectionne
+    			feature.renderIntent = null;
     			this.trackedFeatures.push(feature);
     		}
     	}
