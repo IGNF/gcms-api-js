@@ -55,7 +55,8 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 				}
 				else{
 					layerOptions.strategies = [ 
-					     new OpenLayers.Strategy.BBOX({ratio: 1.2,resFactor: 2})
+					     new OpenLayers.Strategy.BBOX({ratio: 1.2,resFactor: 2}),
+					     new GCMS.Strategy.KeepChanges()
                     ];
 				}
 				
@@ -181,6 +182,42 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 			return ( geometryType.indexOf( "Multi" ) !== -1 ) 
 			     || ( geometryType == "GeometryCollection" ) ;
 		},
+		
+		/**
+		 * Test si la colonne géométrique supporte les Point
+		 */
+		hasPoint: function(){
+		   var geometryType = this.getGeometryType() ;
+		    return 
+		          ( geometryType.indexOf( "Point" ) !== -1 ) 
+		       ||
+		          ( geometryType == "GeometryCollection" )
+		    ;
+		},
+		
+	    /**
+         * Test si la colonne géométrique supporte les LineString
+         */
+        hasLineString: function(){
+           var geometryType = this.getGeometryType() ;
+            return 
+                  ( geometryType.indexOf( "LineString" ) !== -1 ) 
+               ||
+                  ( geometryType == "GeometryCollection" )
+            ;
+        },
+        
+        /**
+         * Test si la colonne géométrique supporte les Polygon
+         */
+        hasPolygon: function(){
+           var geometryType = this.getGeometryType() ;
+            return 
+                  ( geometryType.indexOf( "Polygon" ) !== -1 ) 
+               ||
+                  ( geometryType == "GeometryCollection" )
+            ;
+        },
 		
 		/**
 		 * Récupérer les modifications sur la couche
