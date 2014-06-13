@@ -179,44 +179,55 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 		 */
 		hasMultiGeometry: function(){
 			var geometryType = this.getGeometryType() ;
-			return ( geometryType.indexOf( "Multi" ) !== -1 ) 
-			     || ( geometryType == "GeometryCollection" ) ;
+			if ( geometryType.indexOf( "Multi" ) !== -1 ){
+			    return true ;
+			}
+			if ( geometryType == "GeometryCollection" ){
+			    return true ;
+			}
+			return false ;
 		},
 		
 		/**
 		 * Test si la colonne géométrique supporte les Point
 		 */
 		hasPoint: function(){
-		   var geometryType = this.getGeometryType() ;
-		    return 
-		          ( geometryType.indexOf( "Point" ) !== -1 ) 
-		       ||
-		          ( geometryType == "GeometryCollection" )
-		    ;
+		    var geometryType = this.getGeometryType() ;
+            if ( geometryType.indexOf( "Point" ) !== -1 ){
+                return true ;
+            }
+            if ( geometryType == "GeometryCollection" ){
+                return true ;
+            }
+            return false ;
 		},
 		
 	    /**
          * Test si la colonne géométrique supporte les LineString
          */
         hasLineString: function(){
-           var geometryType = this.getGeometryType() ;
-            return 
-                  ( geometryType.indexOf( "LineString" ) !== -1 ) 
-               ||
-                  ( geometryType == "GeometryCollection" )
-            ;
+            var geometryType = this.getGeometryType() ;
+            if ( geometryType.indexOf( "LineString" ) !== -1 ){
+                return true ;
+            }
+            if ( geometryType == "GeometryCollection" ){
+                return true ;
+            }
+            return false ;
         },
         
         /**
          * Test si la colonne géométrique supporte les Polygon
          */
         hasPolygon: function(){
-           var geometryType = this.getGeometryType() ;
-            return 
-                  ( geometryType.indexOf( "Polygon" ) !== -1 ) 
-               ||
-                  ( geometryType == "GeometryCollection" )
-            ;
+            var geometryType = this.getGeometryType() ;
+            if ( geometryType.indexOf( "Polygon" ) !== -1 ){
+                return true ;
+            }
+            if ( geometryType == "GeometryCollection" ){
+                return true ;
+            }
+            return false ;
         },
 		
 		/**
