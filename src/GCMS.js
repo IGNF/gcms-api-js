@@ -3,13 +3,12 @@ var GCMS = GCMS || {} ;
 /**
  * GCMS version
  */
-GCMS.version = "1.0.0" ;
+GCMS.version = "1.1.0" ;
 
 /**
  * Loader for the non minified version
  */
 (function() {
-	
 	/**
 	 * The list of all the JS files
 	 */
@@ -28,8 +27,8 @@ GCMS.version = "1.0.0" ;
 		'GCMS/Strategy/KeepChanges.js',
 		
 		'GCMS/Layer.js',
-		'GCMS/Layer/BDUni.js',
-		'GCMS/Layer/VectorLayer.js'
+		'GCMS/Layer/VectorLayer.js',
+		'GCMS/Layer/BDUni.js'		
 	];
 	
 	/**
