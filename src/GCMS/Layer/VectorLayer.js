@@ -229,6 +229,21 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
             }
             return false ;
         },
+        
+        /**
+         * Renvoie la liste des objets modifiés et les tags avec un état 
+         */
+        getModifiedFeatures: function(){
+            var modifiedFeatures = [] ;
+            for ( var i in this.features ){
+                var feature = this.features[i] ;
+                if ( feature.state != null ){
+                    feature.attributes['_state'] = feature.state ;
+                    modifiedFeatures.push( feature ) ;
+                }
+            }
+            return modifiedFeatures ;
+        },
 		
 		/**
 		 * Récupérer les modifications sur la couche
