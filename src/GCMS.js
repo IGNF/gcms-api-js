@@ -17,6 +17,9 @@ GCMS.version = "1.1.0" ;
 		
 		'GCMS/guid.js',
 		
+		'GCMS/Format.js',
+        'GCMS/Format/JSON.js',
+		
 		'GCMS/Util.js',
 		'GCMS/SimpleGeocoder.js',
 		

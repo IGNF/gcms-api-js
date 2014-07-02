@@ -89,7 +89,12 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 							url : featureType.wfs,
 							//callbackKey : "callback",
 							//callbackPrefix : "callback:",
-							format: new OpenLayers.Format.GeoJSONErr(),
+							format: new GCMS.Format.JSON(
+							    {
+							        idName: featureType.idName, 
+							        geometryName: featureType.geometryName
+							    }
+							),
 							// Gestion des erreurs
 							callback : function(error, status, resp) 
 								{	// => Fonction onError du layer
@@ -106,7 +111,7 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 								srsName : srsName, // "EPSG:4326"
 								request : "GetFeature",
 								typeName : featureType.name, // "state"
-								outputFormat : "GeoJSON",
+								outputFormat : "JSON",
 								maxFeatures : (options.maxFeatures ? options.maxFeatures : null)
 							},
 							filterToParams : function(filter,params) { 
