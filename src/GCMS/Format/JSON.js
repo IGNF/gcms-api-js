@@ -67,10 +67,10 @@ GCMS.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
         for ( var i in features ){
             var feature = features[i] ;
             var row = feature.attributes ;
-            row[ this.geometryName ] = this.wkt.write( feature.geometry ) ;
-            //row[ "_state" ] = feature.state ; 
+            row[ this.geometryName ] = this.wkt.write( feature ) ;
+            rows.push( row ) ;
         }
         return this.json.write( rows ) ;
     },
-    CLASS_NAME: "OpenLayers.Format.DbpediaFormat" 
+    CLASS_NAME: "GCMS.Format.JSON" 
 });
