@@ -42,9 +42,17 @@ GCMS.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
             }else{
                 throw "missing geometry attribute '"+this.geometryName+"' in JSON row" ;
             }
+
+            if ( row[ this.idName ] ){
+                feature.fid = row[ this.idName ] ;
+            }else{
+                throw "missing id attribute '"+this.idName+"' in JSON row" ;
+            }
             
             delete row[ this.geometryName ] ;
             feature.attributes = row ;
+            
+            
             
             features.push( feature ) ;
         }
