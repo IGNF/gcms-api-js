@@ -70,7 +70,7 @@ GCMS.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
             row[ this.geometryName ] = this.wkt.write( feature ) ;
             rows.push( row ) ;
         }
-        return this.json.write( rows ) ;
+        return rows ;
     },
     CLASS_NAME: "GCMS.Format.JSON" 
 });
