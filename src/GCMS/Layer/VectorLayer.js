@@ -55,7 +55,7 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 				}
 				else{
 					layerOptions.strategies = [ 
-					     new OpenLayers.Strategy.BBOX({ratio: 1.2,resFactor: 2}),
+					     new OpenLayers.Strategy.BBOX({ratio: 1.05,resFactor: 2}),
 					     new GCMS.Strategy.KeepChanges()
                     ];
 				}
