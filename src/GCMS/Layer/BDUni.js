@@ -178,10 +178,10 @@ GCMS.Layer.BDUni.defaultStyle =
 							else return "";
 						},
 						lox: function (feature) 
-						{	return OpenLayers.Layer.GCMS.Util.dCenterLine(feature).dx; 
+						{	return GCMS.Util.dCenterLine(feature).dx; 
 						},
 						loy: function (feature) 
-						{	return OpenLayers.Layer.GCMS.Util.dCenterLine(feature).dy; 
+						{	return GCMS.Util.dCenterLine(feature).dy; 
 						},
 						fcolor: function(feature) 
 						{	if (options && options.vert && feature.attributes.itineraire_vert=="Appartient") 
@@ -252,15 +252,15 @@ GCMS.Layer.BDUni.defaultStyle =
 						},
 						lrot: function (feature) 
 						{	if (feature.attributes.sens_de_circulation != 'Sens direct' && feature.attributes.sens_de_circulation != 'Sens inverse') return 0;
-							return OpenLayers.Layer.GCMS.Util.angle (feature, 'center'); 
+							return GCMS.Util.angle (feature, 'center'); 
 						},
 						lox: function (feature) 
 						{	if (feature.attributes.sens_de_circulation != 'Sens direct' && feature.attributes.sens_de_circulation != 'Sens inverse') return 0;
-							return OpenLayers.Layer.GCMS.Util.dCenterLine(feature).dx; 
+							return GCMS.Util.dCenterLine(feature).dx; 
 						},
 						loy: function (feature) 
 						{	if (feature.attributes.sens_de_circulation != 'Sens direct' && feature.attributes.sens_de_circulation != 'Sens inverse') return 0;
-							return OpenLayers.Layer.GCMS.Util.dCenterLine(feature).dy; 
+							return GCMS.Util.dCenterLine(feature).dy; 
 						}
 					}
 			}
@@ -310,13 +310,13 @@ GCMS.Layer.BDUni.defaultStyle =
 		else style = {};
 		context = 
 		{	lrot: function (feature) 
-			{	return OpenLayers.Layer.GCMS.Util.angle (feature, 'center', true); 
+			{	return GCMS.Util.angle (feature, 'center', true); 
 			},
 			lox: function (feature) 
-			{	return OpenLayers.Layer.GCMS.Util.dCenterLine(feature).dx; 
+			{	return GCMS.Util.dCenterLine(feature).dx; 
 			},
 			loy: function (feature) 
-			{	return OpenLayers.Layer.GCMS.Util.dCenterLine(feature).dy; 
+			{	return GCMS.Util.dCenterLine(feature).dy; 
 			}
 		};
 		return { style:style, context:context };
@@ -330,12 +330,12 @@ GCMS.Layer.BDUni.defaultStyle =
 					{	getNom: function (feature)
 						{	if (feature.layer.map.zoom < 15) return "";
 							// Decouper les noms trop long
-							else return OpenLayers.Layer.BDUni.toponyme(feature.attributes.nom);
+							else return GCMS.Layer.BDUni.toponyme(feature.attributes.nom);
 						}
 					}
 			}
 	},
-	// Affichage du nom a partir de l'echelle 15
+	// Affichage du nom a partir de l'echelle 17
 	'nom17': function(options)
 	{	return {	style : 
 					{	label: "${getNom}"
@@ -344,7 +344,7 @@ GCMS.Layer.BDUni.defaultStyle =
 					{	getNom: function (feature)
 						{	if (feature.layer.map.zoom < 17) return "";
 							// Decouper les noms trop long
-							else return OpenLayers.Layer.BDUni.toponyme(feature.attributes.nom);
+							else return GCMS.Layer.BDUni.toponyme(feature.attributes.nom);
 						}
 					}
 			}
@@ -355,8 +355,7 @@ GCMS.Layer.BDUni.defaultStyle =
 
 // Decouper les noms trop long
 GCMS.Layer.BDUni.toponyme = function(nom)
-{	
-	if (!nom || !nom.length) return "";
+{	if (!nom || !nom.length) return "";
 	if (nom.length > 20)
 	{	var t0 = nom.replace("' ","'").replace(" - ","-").split(' ');
 		var ti="", t="";
