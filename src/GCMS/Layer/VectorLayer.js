@@ -70,19 +70,7 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 						this.options.callback.call(this.options.scope ? this.options.scope : this, resp.priv.status!=200 || this.format.lastError, resp.priv.status, resp);
 					}
 				});
-				// Gestion des erreurs JSON
-				OpenLayers.Format.GeoJSONErr = OpenLayers.Class(OpenLayers.Format.GeoJSON, 
-				{	read: function(json, type, filter)
-					{	var results = null;
-						try 
-						{	results = OpenLayers.Format.GeoJSON.prototype.read.apply(this, arguments);
-							this.lastError = null;
-						} catch(e) 
-						{	this.lastError = "JSON";
-						}
-						return results;
-					}
-				});
+				
 
 				layerOptions.protocol = new OpenLayers.Protocol.HTTPErr(
 						{
@@ -250,23 +238,23 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
             return modifiedFeatures ;
         },
 		
-		/**
-		 * Récupérer les modifications sur la couche
-		 */
-		getSaveActions: function(){
-			var actions = [] ;
-			for ( var i in this.features ){
-				var feature = this.features[i] ;
-				if ( feature.state != null ){
-					var action = {} ;
-					action[ "state" ] = feature.state ;
-					action[ "typeName" ]     = this.featureType.name ;
-					action["feature"] = this.getFeatureData( feature ) ;
-					actions.push( action );
-				}
-			}
-			return actions ;
-		},
+
+        /**
+         * Récupérer les modifications sur la couche
+         */
+        getSaveActions: function(){
+            var format = new GCMS.Format.JSON(
+                {
+                    idName: this.featureType.idName, 
+                    geometryName: this.featureType.geometryName,
+                    internalProjection: this.map.getProjectionObject(),
+                    externalProjection: this.featureType.projection
+                }
+            ) ;
+            
+            return format.write( this.getModifiedFeatures() ) ; 
+        },
+        
 		
 		/**
 		 * Récupérer les modifications sur la couche
@@ -294,33 +282,6 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 			return featureData ;
 		},		
 		
-		/**
-		 * Sauvegarder les objets créé, modifié et détruit features 
-		 */
-		save: function(){
-			var actions = this.getSaveActions();
-			if ( actions.length == 0 ){
-				return ;
-			}
-			
-			var self = this ;
-			var request = OpenLayers.Request.POST({
-			    url: this.featureType.wfs+"transaction/",
-			    data: OpenLayers.Util.getParameterString({"actions":JSON.stringify(actions)}),
-			    headers: {
-			    	"Content-Type": "application/x-www-form-urlencoded"
-			    },
-			    callback: function(request){
-			    	if ( 200 != request.status ){
-			    		alert( request.responseText );
-			    	}else{
-			    		// ok, refresh
-			    		self.refresh( { force: true } );
-			    	}
-			    }
-			});
-		},
-
 		/** Modifier le filtre de chargement
 		*/
 		setFeatureFilter : function (filter, options)

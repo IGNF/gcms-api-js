@@ -19,7 +19,7 @@ GCMS.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
         
         OpenLayers.Format.prototype.initialize.apply(this, [options]);
         this.json = new OpenLayers.Format.JSON();
-        this.wkt  = new OpenLayers.Format.WKT();
+        this.wkt  = new OpenLayers.Format.WKT(options);
     },
     
     /**
