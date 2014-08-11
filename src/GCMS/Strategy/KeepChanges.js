@@ -2,6 +2,8 @@
  * @requires OpenLayers/Strategy.js
  */
 
+ if (!GCMS.Strategy) GCMS.Strategy={};
+
 /**
  * Class: GCMS.Strategy.KeepChanges
  * A strategy that protect features whose state is Insert/Delete/Update from deletion on reload
@@ -63,6 +65,7 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     deactivate: function() {
         var deactivated = OpenLayers.Strategy.prototype.deactivate.call(this);
         if(deactivated) {
+			this.reset();
         	this.layer.events.un({
         		"loadstart": this.handleBackup,
                 "loadend": this.handleRestore,
@@ -72,6 +75,20 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
         return deactivated;
     },
     
+	/**
+     * Method: setLayer
+     * Called to set the <layer> property.
+     *
+     * Parameters:
+     * layer - {<OpenLayers.Layer.Vector>}
+     */
+    setLayer: function(layer) 
+	{   OpenLayers.Strategy.prototype.setLayer.call(this,layer);
+		// Register new event type
+		layer.events.addEventType("restorestart");
+		layer.events.addEventType("restoreend");
+    },
+
     /**
      * Method: reset
      * Clear tracked features
@@ -94,7 +111,8 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
      * event - {Object} The event this function is listening for.
      */
     handleBackup: function(event) {
-    	this.trackedFeatures = [] ;
+    	this.layer.events.triggerEvent("restorestart", {handle:"backup"});
+		this.trackedFeatures = [] ;
     	for ( var i in this.layer.features ){
     		var feature = this.layer.features[i];
     		if ( feature.state !== null ){
@@ -105,6 +123,7 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     	}
     	// remove feature from layer to avoid "destroy"
     	this.layer.removeFeatures(this.layer.features); 
+		this.layer.events.triggerEvent("restoreend", {handle:"backup"});
     },
     
     
@@ -116,7 +135,8 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
      * event - {Object} The event this function is listening for.
      */
     handleRestore: function(event) {
-    	var duplicatedFeatures = []; 
+    	this.layer.events.triggerEvent("restorestart", {handle:"restore"});
+		var duplicatedFeatures = []; 
     	for ( var i in this.trackedFeatures ){
     		var feature = this.layer.getFeatureByFid( this.trackedFeatures[i].fid ) ;
     		if ( feature != null ){
@@ -126,6 +146,7 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     	this.layer.destroyFeatures( duplicatedFeatures ) ;
     	
     	this.layer.addFeatures( this.trackedFeatures );
+		this.layer.events.triggerEvent("restoreend", {handle:"restore"});
     },
     
    
