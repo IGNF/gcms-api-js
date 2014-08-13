@@ -122,7 +122,8 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     		}
     	}
     	// remove feature from layer to avoid "destroy"
-    	this.layer.removeFeatures(this.layer.features); 
+    	// this.layer.removeFeatures(this.layer.features);
+		this.layer.removeFeatures(this.trackedFeatures);
 		this.layer.events.triggerEvent("restoreend", {handle:"backup"});
     },
     
