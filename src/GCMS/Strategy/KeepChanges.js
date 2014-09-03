@@ -13,6 +13,12 @@
  */
 GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
  
+    /**
+	 * APIProperty: keepSelection
+	 * {bool} - keep the selection alive
+	 */
+	keepSelection: false,
+
     /** 
      * Property: trackedFeatures
      * 
@@ -21,6 +27,15 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
      * {<OpenLayers.Feature.Vector>} Tracked feature during refresh
      */
     trackedFeatures: null,
+
+    /** 
+     * Property: selectedFeatures
+     * 
+     * Warning : Doesn't store feature if there is no refresh
+     * 
+     * {<OpenLayers.Feature.Vector>} Selected feature to restore after refresh
+     */
+    selectedFeatures: null,
     
     /**
      * Constructor: OpenLayers.Strategy.Save
@@ -33,6 +48,7 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     initialize: function(options) {
         OpenLayers.Strategy.prototype.initialize.apply(this, [options]);
         this.trackedFeatures = [] ;
+        this.selectedFeatures = [] ;
     },
    
     /**
@@ -96,7 +112,8 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     reset: function(){
     	this.layer.destroyFeatures( this.trackedFeatures ) ;
     	this.trackedFeatures = [] ;
-    	
+     	this.selectedFeatures = [] ;
+   	
     	this.layer.destroyFeatures( this.layer.features );
     	
     	this.layer.refresh({force: true}) ;
@@ -117,9 +134,16 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     		var feature = this.layer.features[i];
     		if ( feature.state !== null ){
     			//style deselectionne
-    			feature.renderIntent = null;
+    			if (!this.keepSelection) feature.renderIntent = null;
     			this.trackedFeatures.push(feature);
     		}
+    	}
+		// preserve selection
+		this.selectedFeatures = [] ;
+    	if (this.keepSelection) for ( var i in this.layer.selectedFeatures )
+		{	var feature = this.layer.selectedFeatures[i];
+			this.selectedFeatures.push(feature);
+			if ( feature.state == null ) this.trackedFeatures.push(feature);
     	}
     	// remove feature from layer to avoid "destroy"
     	// this.layer.removeFeatures(this.layer.features);
@@ -147,6 +171,9 @@ GCMS.Strategy.KeepChanges = OpenLayers.Class(OpenLayers.Strategy, {
     	this.layer.destroyFeatures( duplicatedFeatures ) ;
     	
     	this.layer.addFeatures( this.trackedFeatures );
+		// restore selection
+		if (this.keepSelection) this.layer.selectedFeatures = this.selectedFeatures;
+
 		this.layer.events.triggerEvent("restoreend", {handle:"restore"});
     },
     
