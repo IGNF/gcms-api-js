@@ -7,9 +7,13 @@
             "name": "mborne",
             "email": "mickael.borne@ign.fr"
         },
-	{
+	    {
             "name": "jmviglino",
             "email": "jean-marc.viglino@ign.fr"
+        },
+	    {
+            "name": "msotgia",
+            "email": "madeline.sotgia@ign.fr"
         }
     ],
     "require": {
