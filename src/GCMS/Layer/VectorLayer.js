@@ -122,6 +122,35 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
 		},
 		
 		/**
+		 * Recherche des features par tableau d'attributs (clause &&)
+		 * @param {attributes} object
+		 * Exemple : {'field1':'value1', 'field2':'value2'}
+		 */
+		getFeaturesByAttributes: function(attributes)	{
+			var i, feature, len = this.features.length,
+			foundFeatures = [];
+			
+			if ( typeof(attributes) !== 'object' )	{
+				return foundFeatures;
+			}
+			
+			for(i = 0; i < len; i++) {
+				feature = this.features[i];
+				
+				if(feature && feature.attributes) {
+					for (var prop in attributes) {
+						if (feature.attributes[prop] === attributes[prop])	{
+							foundFeatures.push(feature);
+							break;
+						} 
+					}
+				}
+			}
+	
+			return foundFeatures;
+		},
+		
+		/**
 		 * Créé un style à partir du style définit sur le FeatureType
 		 */
 		createStyleMap: function(featureType){
