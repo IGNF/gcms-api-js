@@ -257,9 +257,11 @@ GCMS.Layer.VectorLayer = OpenLayers.Class(
          */
         getModifiedFeatures: function(){
             var modifiedFeatures = [] ;
+            var uuid = GCMS.guid();
             for ( var i in this.features ){
                 var feature = this.features[i] ;
                 if ( feature.state != null ){
+                     feature.attributes['_idTempClient'] = uuid;
                     feature.attributes['_state'] = feature.state ;
                     modifiedFeatures.push( feature ) ;
                 }
