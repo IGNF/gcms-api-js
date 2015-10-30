@@ -4,8 +4,8 @@
  */
 GCMS.SimpleGeocoder = function( apiKey ){
 	this.urls = {
-		ols : "http://wxs.ign.fr/"+apiKey+"/geoportail/ols",
-		autocomplete: "http://wxs.ign.fr/"+apiKey+"/ols/apis/completion"
+		ols : location.protocol+"//wxs.ign.fr/"+apiKey+"/geoportail/ols",
+		autocomplete: location.protocol+"//wxs.ign.fr/"+apiKey+"/ols/apis/completion"
 	} ;
 
 
