@@ -1,0 +1,14 @@
+{
+  "name": "gcms-api-js",
+  "version": "develop",
+  "description": "API JavaScript pour l'utilisation de gcms",
+  "main": "src/GCMS-minified.js",
+  "repository": "http://gitlab.dockerforge.ign.fr/bduni/gcms-api-js.git",
+  "author": "mborne <mickael.borne@ign.fr>",
+  "contributors": [
+    "mborne <mickael.borne@ign.fr>",
+    "jmviglino <jean-marc.viglino@ign.fr>",
+    "msotgia <madeline.sotgia@ign.fr>"
+  ],
+  "license": "Propriétaire"
+}
