@@ -22,7 +22,6 @@ GCMS.version = "1.1.0" ;
         'GCMS/Format/JSON.js',
 		
 		'GCMS/Util.js',
-		'GCMS/SimpleGeocoder.js',
 		
 		'GCMS/Control.js',
 		'GCMS/Control/DeleteFeature.js',
