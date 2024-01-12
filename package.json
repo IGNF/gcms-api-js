@@ -1,5 +1,5 @@
 {
-  "name": "@ign-mut/gcms-api-js",
+  "name": "gcms-api-js",
   "version": "1.4.1",
   "description": "API JavaScript pour l'utilisation de gcms",
   "main": "src/GCMS-minified.js",
